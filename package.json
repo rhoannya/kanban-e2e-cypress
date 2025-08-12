@@ -1,0 +1,11 @@
+{
+  "name": "kanban-e2e-cypress",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "cypress": "^13.6.0"
+  },
+  "scripts": {
+    "test": "cypress run"
+  }
+}
