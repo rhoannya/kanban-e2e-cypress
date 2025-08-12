@@ -1,33 +1,16 @@
-name: Cypress E2E
-
-on:
-  push:
-    branches: ["**"]
-  pull_request:
-
-jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm ci || npm i
-
-      # Passo extra para diagnosticar: mostra a árvore de arquivos
-      - name: List files
-        run: |
-          pwd
-          ls -la
-          echo "--- cypress/e2e ---"
-          ls -la cypress/e2e || true
-
-      # Executa o Cypress direto, apontando spec e config
       - name: Run Cypress tests
         run: npx cypress run --browser chrome --config-file cypress.config.js --spec "cypress/e2e/**/*.cy.js"
+
+      - name: Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
